@@ -121,12 +121,11 @@ while True:
     elif user_list.get(name) == pas:
         print("Login successfully as user!")
         while True:
-            print("\nUser Menu:\n 1. Show empty room\n 2. My reservations\n 3. Request to reserve \n 8. Logout")
+            print("\nUser Menu:\n 1. Request to reserve\n 2. My reservations\n 3.  \n 8. Logout")
             choice = input("Enter your choice: ").strip()
             options = {
-                '1': show_empty_rooms,
+                '1': lambda: request_reserve(user_name=name),
                 '2': lambda: show_my_reserve(user_name=name),
-                '3': lambda: request_reserve(user_name=name), 
             }
             if choice == '8':
                 print("Logging out...")
