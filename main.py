@@ -3,8 +3,42 @@ empty_room_list = []
 reserve_list = {"room1":"ali"}
 admin_list = {"admin":"a"}
 user_list = {"ali":"ab"}
+pending_requests = {}
 
+#user func
+def show_my_reserve(user_name):
+    my_rooms = {} 
+    
+    for room, size in all_room_list.items():
+        if reserve_list.get(room) == user_name: 
+            my_rooms[room] = size
+    
+    if my_rooms:
+        print(f"{user_name}, your reserved rooms:")
+        for room, size in my_rooms.items():
+            print(f"{room} ({size})")
+    else:
+        print(f"{user_name}, you have no reserved rooms.")
 
+def request_reserve(user_name):
+    empty_rooms = [room for room in all_room_list if room not in reserve_list]
+    #empty_rooms = show_empty_rooms()   
+    if not empty_rooms:
+        print("No empty rooms available.")
+        return    
+    print("Empty rooms:")
+    for room in empty_rooms:
+        print(f"{room} ({all_room_list[room]})")
+  
+    choice = input("Enter the room name you want to request: ").strip()   
+    if choice in empty_rooms:
+        if choice in pending_requests:
+            print("This room already has a pending request.")
+        else:
+            pending_requests[choice] = user_name
+            print(f"Your request for {choice} has been sent to the admin.")
+    else:
+        print("Invalid choice. Please try again.")  
 
 #admin func
 def add_member():
@@ -47,6 +81,7 @@ def show_empty_rooms():
         print("Empty rooms:", ", ".join(empty_room_list))
     else:
         print("No empty rooms available.")
+    return empty_room_list
 
 def show_reserve_rooms():
     if reserve_list:
@@ -86,11 +121,12 @@ while True:
     elif user_list.get(name) == pas:
         print("Login successfully as user!")
         while True:
-            print("\nUser Menu:\n 1. Show empty room\n 2. My reservations\n 8. Logout")
+            print("\nUser Menu:\n 1. Show empty room\n 2. My reservations\n 3. Request to reserve \n 8. Logout")
             choice = input("Enter your choice: ").strip()
             options = {
                 '1': show_empty_rooms,
-                '2': show_reserve_rooms,
+                '2': lambda: show_my_reserve(user_name=name),
+                '3': lambda: request_reserve(user_name=name), 
             }
             if choice == '8':
                 print("Logging out...")
