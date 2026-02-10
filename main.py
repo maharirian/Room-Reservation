@@ -82,8 +82,25 @@ while True:
             else:
                 print("Invalid choice, please try again")
     
+    
     elif user_list.get(name) == pas:
         print("Login successfully as user!")
+        while True:
+            print("\nUser Menu:\n 1. Show empty room\n 2. My reservations\n 8. Logout")
+            choice = input("Enter your choice: ").strip()
+            options = {
+                '1': show_empty_rooms,
+                '2': show_reserve_rooms,
+            }
+            if choice == '8':
+                print("Logging out...")
+                break
+            action = options.get(choice)
+            if action:
+                action()
+            else:
+                print("Invalid choice, please try again")
+
         
     else:
         print("Invalid username or password. Try again.")
