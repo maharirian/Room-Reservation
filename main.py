@@ -126,7 +126,6 @@ while True:
             options = {
                 '1': lambda: request_reserve(user_name=name),
                 '2': lambda: show_my_reserve(user_name=name),
-
             }
             if choice == '8':
                 print("Logging out...")
