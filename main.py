@@ -1,5 +1,6 @@
-room_list = {"room1":"big","room2":"big","room3":"small","room4":"small"}
-reserv_list = []
+all_room_list = {"room1":"big","room2":"big","room3":"small","room4":"small"}
+empty_room_list = []
+reserve_list = {"room1":"ali"}
 admin_list = {"admin":"a"}
 user_list = {"ali":"ab"}
 
@@ -38,6 +39,24 @@ def del_member():
     else:
         print("error to delete member")
 
+def show_empty_rooms():
+    for room in all_room_list:
+        if room not in reserve_list:
+            empty_room_list.append(room)
+    if empty_room_list:
+        print("Empty rooms:", ", ".join(empty_room_list))
+    else:
+        print("No empty rooms available.")
+
+def show_reserve_rooms():
+    if reserve_list:
+        print("Reserved rooms:")
+        for room, person in reserve_list.items():
+            print(f"{room} --> reserved by {person}")
+    else:
+        print("No rooms are reserved.")
+
+
 while True:
     print("=== Login ===")
     name = input("Enter name: ").strip()
@@ -46,13 +65,15 @@ while True:
     if admin_list.get(name) == pas:
         print("Login successfully as admin!")
         while True:
-            print("\nAdmin Menu:\n 1. Add new member\n 2. Delete member\n 3. Logout")
+            print("\nAdmin Menu:\n 1. Add new member\n 2. Delete member\n 3. Show empty room\n 4. Show reserv room \n 8. Logout")
             choice = input("Enter your choice: ").strip()
             options = {
                 '1': add_member,
                 '2': del_member,
+                '3': show_empty_rooms,
+                '4': show_reserve_rooms,
             }
-            if choice == '3':
+            if choice == '8':
                 print("Logging out...")
                 break
             action = options.get(choice)
